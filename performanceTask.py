@@ -12,20 +12,23 @@ def checkTheText(currentText, questionList, definitionList):
     #uses a for loop to see what text is there, and updates the text to the next text that needs to be displayed
 
     for i in range(0, len(questionList)):
+
+        #checking to see if i is too large, in which case returning questionList[0]
+        #so that the questions cycle through again
+        if currentText == definitionList[(len(questionList) - 1)]:
+            return(questionList[0])
+
         if questionList[i] == currentText:
             return definitionList[i]
         elif definitionList[i] == currentText:
             return questionList[(i + 1)]
-
-
-
-
-numberOfCards = input("How many cards do you want to input? (please input as a number)")
+        
+numberOfCards = input("How many cards do you want to input? (please input as a number) ")
 
 for i in range(0, int(numberOfCards)):
     print("\nNEW CARD")
-    questionInput = input("What is the question for this card")
-    definitionInput = input("what is the answer for the question")
+    questionInput = input("What is the question for this card ")
+    definitionInput = input("what is the answer for the question ")
 
     question.append(questionInput)
     definition.append(definitionInput)
@@ -49,8 +52,14 @@ while running:
 
     font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20)
 
-    #ignore that thats for later
-    #text = font.render()
+    #changing the text if the space bar is clicked
+    if next:
+        textToDisplay = checkTheText(textToDisplay, question, definition)
+        next = False
+
+    #putting the text onto the screen
+    text = font.render(textToDisplay, True, (0, 0, 0))
+    w.blit(text, (250, 250))
 
     pygame.display.flip()
 
