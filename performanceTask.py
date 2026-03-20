@@ -36,6 +36,7 @@ for i in range(0, int(numberOfCards)):
 textToDisplay = question[0]
 
 w = pygame.display.set_mode((700, 700))
+pygame.display.set_caption("FLASH CARDS")
 running = True
 while running:
 
@@ -50,7 +51,7 @@ while running:
     
     w.fill((255, 255, 255))
 
-    font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20)
+    font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
 
     #changing the text if the space bar is clicked
     if next:
