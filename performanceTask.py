@@ -7,6 +7,19 @@ definition = []
 next = False
 clock = pygame.time.Clock()
 
+def checkTheText(currentText, questionList, definitionList):
+    
+    #uses a for loop to see what text is there, and updates the text to the next text that needs to be displayed
+
+    for i in range(0, len(questionList)):
+        if questionList[i] == currentText:
+            return definitionList[i]
+        elif definitionList[i] == currentText:
+            return questionList[(i + 1)]
+
+
+
+
 numberOfCards = input("How many cards do you want to input? (please input as a number)")
 
 for i in range(0, int(numberOfCards)):
@@ -17,10 +30,12 @@ for i in range(0, int(numberOfCards)):
     question.append(questionInput)
     definition.append(definitionInput)
 
+textToDisplay = question[0]
+
 w = pygame.display.set_mode((700, 700))
 running = True
 while running:
-    
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -31,6 +46,11 @@ while running:
                 next = True
     
     w.fill((255, 255, 255))
+
+    font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20)
+
+    #ignore that thats for later
+    #text = font.render()
 
     pygame.display.flip()
 
