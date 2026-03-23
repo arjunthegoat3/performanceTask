@@ -74,8 +74,17 @@ while running:
     #putting the text onto the screen
     
     if inputting:
-        numberOfCards = "How many cards do you want to input? (please input as a number) "
+        
+        numberOfCards = 0
+        font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
 
+        try:
+            numberOfCards = int(inputText)
+            inputText = ""
+        except:
+            numberOfCards = 0
+            font.render("How many cards do you want to input? - please input as a number (ex. 15) ", True, (0, 0, 0))
+            
         for i in range(0, int(numberOfCards)):
             temp = ""
             temp += "\nNEW CARD"
@@ -98,5 +107,4 @@ while running:
     pygame.display.flip()
 
     clock.tick(60)
-    print(inputText)
 
