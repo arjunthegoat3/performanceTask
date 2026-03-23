@@ -27,6 +27,8 @@ def checkTheText(currentText, questionList, definitionList):
         
 numberOfCards = input("How many cards do you want to input? (please input as a number) ")
 
+inputting = True
+
 for i in range(0, int(numberOfCards)):
     print("\nNEW CARD")
     questionInput = input("What is the question for this card ")
@@ -34,6 +36,7 @@ for i in range(0, int(numberOfCards)):
 
     question.append(questionInput)
     definition.append(definitionInput)
+    inputting = False
 
 textToDisplay = question[0]
 
@@ -48,11 +51,15 @@ while running:
         elif event.type == pygame.KEYDOWN:
             #if the space key is pressed, it will trigger a boolean and when the next question/slide
             #is shown the boolean will be set back to false.
-            inputText += str(pygame.key.get_pressed())
-            if event.key == pygame.K_SPACE:
+            print(inputText)
+            if event.key == pygame.K_SPACE and not inputting:
                 next = True
-            print(pygame.key.get_pressed)
-    
+            elif event.key == pygame.K_AC_BACK:
+                inputText = inputText[0:(len(inputText) - 1)]
+            else:
+                inputText += pygame.key.name(event.key)
+
+                        
     w.fill((255, 255, 255))
 
     font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
@@ -69,4 +76,5 @@ while running:
     pygame.display.flip()
 
     clock.tick(60)
+    print(inputText)
 
