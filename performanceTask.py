@@ -1,11 +1,13 @@
 
 import pygame
 pygame.init()
+import keyboard
 
 question = []
 definition = []
 next = False
 clock = pygame.time.Clock()
+inputText = ""
 
 def checkTheText(currentText, questionList, definitionList):
     
@@ -46,8 +48,10 @@ while running:
         elif event.type == pygame.KEYDOWN:
             #if the space key is pressed, it will trigger a boolean and when the next question/slide
             #is shown the boolean will be set back to false.
+            inputText += str(pygame.key.get_pressed())
             if event.key == pygame.K_SPACE:
                 next = True
+            print(pygame.key.get_pressed)
     
     w.fill((255, 255, 255))
 
