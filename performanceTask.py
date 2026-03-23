@@ -10,6 +10,7 @@ clock = pygame.time.Clock()
 inputText = ""
 inputCounter = 0
 
+
 def checkTheText(currentText, questionList, definitionList):
     
     #uses a for loop to see what text is there, and updates the text to the next text that needs to be displayed
@@ -74,25 +75,28 @@ while running:
     #putting the text onto the screen
     
     if inputting:
-        
-        numberOfCards = 0
-        font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
 
-        try:
-            numberOfCards = int(inputText)
-            inputText = ""
-        except:
-            numberOfCards = 0
-            font.render("How many cards do you want to input? - please input as a number (ex. 15) ", True, (0, 0, 0))
-            
+        numberOfCards = 0
+
+        text = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
+        w.blit(text, (250, 250))
+
+        if inputText != "":
+            try:
+                numberOfCards = int(inputText)
+                inputText = ""
+            except:
+                numberOfCards = 0
+                font.render("How many cards do you want to input? - please input as a number (ex. 15) ", True, (0, 0, 0))
+                
         for i in range(0, int(numberOfCards)):
             temp = ""
             temp += "\nNEW CARD"
-            temp += "What is the question for this card "
+            w.blit("What is the question for this card ", ())
+            question.append(inputText)
+            inputText = ""
             temp += "what is the answer for the question "
-
-            question.append(questionInput)
-            definition.append(definitionInput)
+            definition.append(inputText)
             inputting = False
 
         text = font.render(textToDisplay, True, (0, 0, 0))
