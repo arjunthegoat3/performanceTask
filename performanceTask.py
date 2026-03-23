@@ -3,13 +3,15 @@ import pygame
 pygame.init()
 import keyboard
 
-question = [""]
+question = []
 definition = []
 next = False
 clock = pygame.time.Clock()
 inputText = ""
 inputCounter = 0
-
+setup = True
+currentCard = 0
+typingQuestion = True
 
 def checkTheText(currentText, questionList, definitionList):
     
@@ -40,8 +42,7 @@ for i in range(0, int(numberOfCards)):
     definition.append(definitionInput)
     inputting = False
 """
-
-textToDisplay = question[0]
+textToDisplay = ""
 
 w = pygame.display.set_mode((700, 700))
 pygame.display.set_caption("FLASH CARDS")
@@ -54,11 +55,25 @@ while running:
         elif event.type == pygame.KEYDOWN:
             #if the space key is pressed, it will trigger a boolean and when the next question/slide
             #is shown the boolean will be set back to false.
-            print(inputText)
-            if event.key == pygame.K_SPACE and not inputting:
-                next = True
+            
+            if event.key == pygame.K_SPACE:
+                if not inputting:
+                    next = True
+                else:
+                    inputText += " "
+            
             elif event.key == pygame.K_BACKSPACE:
                 inputText = inputText[0:(len(inputText) - 1)]
+            
+            #enter key programmed by chatgpt
+            elif event.key == pygame.K_RETURN:
+                if typingQuestion:
+                    question.append(inputText)
+                    typingQuestion = False
+                else:
+                    definition.append(inputText)
+                    typingQuestion = True
+                    currentCard += 1
             else:
                 inputText += pygame.key.name(event.key)
 
@@ -67,47 +82,72 @@ while running:
 
     font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
 
-    #changing the text if the space bar is clicked
-    if next:
-        textToDisplay = checkTheText(textToDisplay, question, definition)
-        next = False
-
     #putting the text onto the screen
     
     if inputting:
 
-        numberOfCards = 0
+        if setup:
 
-        text = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
-        w.blit(text, (250, 250))
+            text = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
+            w.blit(text, (250, 250))
 
-        if inputText != "":
-            try:
-                numberOfCards = int(inputText)
-                inputText = ""
-            except:
-                numberOfCards = 0
-                font.render("How many cards do you want to input? - please input as a number (ex. 15) ", True, (0, 0, 0))
-                
-        for i in range(0, int(numberOfCards)):
-            temp = ""
-            temp += "\nNEW CARD"
-            w.blit("What is the question for this card ", ())
-            question.append(inputText)
+        #sees if the user inputted a number, if not the user will be prompted again
+
+        try:
+            numberOfCards = int(inputText)
             inputText = ""
-            temp += "what is the answer for the question "
-            definition.append(inputText)
-            inputting = False
+            setup = False
+        except:
+            numberOfCards = 0
+            font.render("How many cards do you want to input? - please input as a number (ex. 15) ", True, (0, 0, 0))
+            
+        #this part is written by chatgpt (beginning of chagpt programmed part)
+        counter = font.render(("card " + str(currentCard)), True, (255, 0, 0))
+        w.blit(counter, (20, 20))
 
-        text = font.render(textToDisplay, True, (0, 0, 0))
-        input = font.render(textToDisplay, True, (0, 0, 0))
+        if typingQuestion:
+            prompt = font.render("What is the question for this card ", True, (0, 0, 0))
+        else:
+            prompt = font.render("What is the answer for this question ", True, (0, 0, 0))
 
-        w.blit(text, (250, 250))
-        w.blit(input, (400, 250))
+        w.blit(prompt, (250, 250))
+
+        # show typed text
+        typed = font.render(inputText, True, (0, 0, 255))
+        w.blit(typed, (250, 300))
+
+        #end of chatgpt programmed block
+
+        try:
+        
+            textToDisplay = question[0]
+
+            #changing the text if the space bar is clicked
+            if next:
+                textToDisplay = checkTheText(textToDisplay, question, definition)
+                next = False
+
+            text = font.render(textToDisplay, True, (0, 0, 0))
+            input = font.render(textToDisplay, True, (0, 0, 0))
+
+            w.blit(text, (250, 250))
+            w.blit(input, (400, 250))
+        
+        except:
+            None
+        
+        
     else:
-        text = font.render(textToDisplay, True, (0, 0, 0))
-        w.blit(text, (250, 250))
+        
+        try:
 
+            text = font.render(textToDisplay, True, (0, 0, 0))
+            w.blit(text, (250, 250))
+
+        except:
+
+            None
+        
     pygame.display.flip()
 
     clock.tick(60)
