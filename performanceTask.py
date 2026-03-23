@@ -3,11 +3,12 @@ import pygame
 pygame.init()
 import keyboard
 
-question = []
+question = [""]
 definition = []
 next = False
 clock = pygame.time.Clock()
 inputText = ""
+inputCounter = 0
 
 def checkTheText(currentText, questionList, definitionList):
     
@@ -25,10 +26,10 @@ def checkTheText(currentText, questionList, definitionList):
         elif definitionList[i] == currentText:
             return questionList[(i + 1)]
         
-numberOfCards = input("How many cards do you want to input? (please input as a number) ")
+#numberOfCards = input("How many cards do you want to input? (please input as a number) ")
 
 inputting = True
-
+"""
 for i in range(0, int(numberOfCards)):
     print("\nNEW CARD")
     questionInput = input("What is the question for this card ")
@@ -37,6 +38,7 @@ for i in range(0, int(numberOfCards)):
     question.append(questionInput)
     definition.append(definitionInput)
     inputting = False
+"""
 
 textToDisplay = question[0]
 
@@ -54,7 +56,7 @@ while running:
             print(inputText)
             if event.key == pygame.K_SPACE and not inputting:
                 next = True
-            elif event.key == pygame.K_AC_BACK:
+            elif event.key == pygame.K_BACKSPACE:
                 inputText = inputText[0:(len(inputText) - 1)]
             else:
                 inputText += pygame.key.name(event.key)
@@ -70,8 +72,28 @@ while running:
         next = False
 
     #putting the text onto the screen
-    text = font.render(textToDisplay, True, (0, 0, 0))
-    w.blit(text, (250, 250))
+    
+    if inputting:
+        numberOfCards = "How many cards do you want to input? (please input as a number) "
+
+        for i in range(0, int(numberOfCards)):
+            temp = ""
+            temp += "\nNEW CARD"
+            temp += "What is the question for this card "
+            temp += "what is the answer for the question "
+
+            question.append(questionInput)
+            definition.append(definitionInput)
+            inputting = False
+
+        text = font.render(textToDisplay, True, (0, 0, 0))
+        input = font.render(textToDisplay, True, (0, 0, 0))
+
+        w.blit(text, (250, 250))
+        w.blit(input, (400, 250))
+    else:
+        text = font.render(textToDisplay, True, (0, 0, 0))
+        w.blit(text, (250, 250))
 
     pygame.display.flip()
 
