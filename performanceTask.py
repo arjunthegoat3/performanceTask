@@ -103,7 +103,7 @@ while running:
 
         if takingQuestion:
 
-            if not enterPressed:
+            if not enterPressed and not next:
 
                 questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
                 w.blit(questionOutput, (250, 250))
@@ -118,7 +118,7 @@ while running:
             
         else:
 
-            if not enterPressed:
+            if not enterPressed and not next:
 
                 definitionOutput = font.render("What is the answer for this card? ", True, (0, 0, 0))
                 w.blit(definitionOutput, (250, 250))
@@ -144,7 +144,7 @@ while running:
             None
 
         #changing the text if the space bar is clicked
-        if next:
+        if next or enterPressed:
             textToDisplay = checkTheText(textToDisplay, question, definition)
             next = False
 
