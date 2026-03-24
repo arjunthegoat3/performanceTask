@@ -5,7 +5,6 @@ import keyboard
 
 question = []
 definition = []
-next = False
 clock = pygame.time.Clock()
 inputText = ""
 inputCounter = 0
@@ -17,6 +16,7 @@ enterPressed = False
 cardCount = ""
 takingQuestion = True
 firstQuestionCycle = True
+showUserInput = True
 
 def checkTheText(currentText, questionList, definitionList):
     
@@ -26,7 +26,7 @@ def checkTheText(currentText, questionList, definitionList):
 
         #checking to see if i is too large, in which case returning questionList[0]
         #so that the questions cycle through again
-        if currentText == definitionList[(len(questionList) - 1)]:
+        if currentText == definitionList[(len(questionList) - 1)] or currentText == "":
             return(questionList[0])
 
         if questionList[i] == currentText:
@@ -40,7 +40,10 @@ inputting = True
 textToDisplay = ""
 
 w = pygame.display.set_mode((700, 700))
+icon = pygame.image.load("icon.png") #notebook picture, from dreamstime website
+pygame.display.set_icon(icon)
 pygame.display.set_caption("FLASH CARDS")
+font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
 running = True
 while running:
 
@@ -52,10 +55,7 @@ while running:
             #is shown the boolean will be set back to false.
             
             if event.key == pygame.K_SPACE:
-                if not inputting:
-                    next = True
-                else:
-                    inputText += " "
+                inputText += " "
             
             elif event.key == pygame.K_BACKSPACE:
                 inputText = inputText[0:(len(inputText) - 1)]
@@ -63,12 +63,16 @@ while running:
             elif event.key == pygame.K_RETURN:
                 enterPressed = True
             else:
-                inputText += pygame.key.name(event.key)
+                if len(pygame.key.name(event.key)) == 1:
+                    inputText += pygame.key.name(event.key)
 
                         
     w.fill((255, 255, 255))
 
-    font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
+    #having text be displayed when the boolean is true
+    if showUserInput:
+        userInput = font.render(inputText, True, (0, 0, 255))
+        w.blit(userInput, (250, 600))
 
     """
     checking which boolean is true ands based on that running that part of the program,
@@ -82,7 +86,7 @@ while running:
         text = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
         w.blit(text, (250, 250))
 
-        if enterPressed or next:
+        if enterPressed:
 
             makeCards = True
             cardCount = int(inputText)
@@ -94,7 +98,7 @@ while running:
 
         if takingQuestion:
 
-            if not enterPressed and not next:
+            if not enterPressed:
 
                 questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
                 w.blit(questionOutput, (250, 250))
@@ -109,7 +113,7 @@ while running:
             
         else:
 
-            if not enterPressed and not next:
+            if not enterPressed:
 
                 definitionOutput = font.render("What is the answer for this card? ", True, (0, 0, 0))
                 w.blit(definitionOutput, (250, 250))
@@ -120,22 +124,28 @@ while running:
                 inputText = ""
                 enterPressed = False
                 takingQuestion = True
+                
 
                 
-    inputCounter += 1
+        inputCounter += 1
 
-    if len(definition) == cardCount:
-        makeCards = False
-        textToDisplay = question[0]
+        if len(definition) == cardCount:
+            firstQuestionCycle = True
+            makeCards = False
+            
+            
 
     if not start and not makeCards:
 
-        
-        
+        showUserInput = False
+
         #changing the text if the space bar is clicked or enter is pressed
-        if next or enterPressed:
+        if firstQuestionCycle:
             textToDisplay = checkTheText(textToDisplay, question, definition)
-            next = False
+            firstQuestionCycle = False
+
+        if enterPressed:
+            textToDisplay = checkTheText(textToDisplay, question, definition)
             enterPressed = False
 
         questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
