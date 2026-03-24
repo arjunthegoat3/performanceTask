@@ -96,29 +96,31 @@ while running:
 
         takingQuestion = True
 
-        if takingQuestion:
+        for i in range(0, int(cardCount)):
 
-            questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
-            w.blit(questionOutput, (250, 250))
+            if takingQuestion:
 
-            if enterPressed:
+                questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
+                w.blit(questionOutput, (250, 250))
 
-                question.append(inputText)
-                inputText = ""
-                takingQuestion = False
-            
+                if enterPressed:
 
-        else:
+                    question.append(inputText)
+                    inputText = ""
+                    takingQuestion = False
+                
 
-            definitionOutput = font.render("What is the answer for this card? ", True, (0, 0, 0))
-            w.blit(definitionOutput, (250, 250))
+            else:
 
-            if enterPressed:
+                definitionOutput = font.render("What is the answer for this card? ", True, (0, 0, 0))
+                w.blit(definitionOutput, (250, 250))
+
+                if enterPressed:
 
 
-                definition.append(inputText)
-                inputText = ""
-                takingQuestion = True
+                    definition.append(inputText)
+                    inputText = ""
+                    takingQuestion = True
 
         enterPressed = False
         inputCounter += 1
@@ -137,75 +139,7 @@ while running:
 
 
         text = font.render(textToDisplay, True, (0, 0, 0))
-        w.blit(text, (250, 250))
-
-
-
-        
-    """
-    if inputting:
-
-        if setup:
-
-            text = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
-            w.blit(text, (250, 250))
-
-        #sees if the user inputted a number, if not the user will be prompted again
-
-        try:
-            numberOfCards = int(inputText)
-            inputText = ""
-            setup = False
-        except:
-            numberOfCards = 0
-            font.render("How many cards do you want to input? - please input as a number (ex. 15) ", True, (0, 0, 0))
-            
-        if setup:
-        #this part is written by chatgpt (beginning of chagpt programmed part)
-        counter = font.render(("card " + str(currentCard)), True, (255, 0, 0))
-        w.blit(counter, (20, 20))
-
-        if typingQuestion:
-            prompt = font.render("What is the question for this card ", True, (0, 0, 0))
-        else:
-            prompt = font.render("What is the answer for this question ", True, (0, 0, 0))
-
-        w.blit(prompt, (250, 250))
-
-        # show typed text
-        typed = font.render(inputText, True, (0, 0, 255))
-        w.blit(typed, (250, 300))
-
-        #end of chatgpt programmed block
-
-        try:
-        
-            textToDisplay = question[0]
-
-            #changing the text if the space bar is clicked
-            if next:
-                textToDisplay = checkTheText(textToDisplay, question, definition)
-                next = False
-
-            text = font.render(textToDisplay, True, (0, 0, 0))
-            input = font.render(textToDisplay, True, (0, 0, 0))
-
-            w.blit(text, (250, 250))
-            w.blit(input, (400, 250))
-        
-        except:
-            None
-        
-        
-    else:
-    
-    """
-        
-        
-
-    
-
-        
+        w.blit(text, (250, 250))        
         
     pygame.display.flip()
 
