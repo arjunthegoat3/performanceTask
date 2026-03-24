@@ -15,6 +15,7 @@ makeCards = True
 doQuestions = True
 enterPressed = False
 cardCount = ""
+takingQuestion = True
 
 def checkTheText(currentText, questionList, definitionList):
     
@@ -78,7 +79,12 @@ while running:
 
     font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
 
-    #putting the text onto the screen
+    """
+    checking which boolean is true ands based on that running that part of the program,
+    in the start it collects the amount of cards the program wants to make,
+    then alternates between getting the question and answer for each card,
+    then the program will go into quizzing the user.
+    """
 
     if start:
         
@@ -87,50 +93,55 @@ while running:
 
         if enterPressed:
 
-            cardCount = str(inputText)
-            inputText = ""
             makeCards = True
+            cardCount = int(inputText)
+            inputText = ""
             start = False
+            enterPressed = False
 
     elif makeCards:
 
-        takingQuestion = True
+        if takingQuestion:
 
-        for i in range(0, int(cardCount)):
-
-            if takingQuestion:
+            if not enterPressed:
 
                 questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
                 w.blit(questionOutput, (250, 250))
 
-                if enterPressed:
-
-                    question.append(inputText)
-                    inputText = ""
-                    takingQuestion = False
-                
-
             else:
+
+                question.append(inputText)
+                inputText = ""
+                enterPressed = False
+                takingQuestion = False
+                
+            
+        else:
+
+            if not enterPressed:
 
                 definitionOutput = font.render("What is the answer for this card? ", True, (0, 0, 0))
                 w.blit(definitionOutput, (250, 250))
 
-                if enterPressed:
+            else:
 
+                definition.append(inputText)
+                inputText = ""
+                enterPressed = False
+                takingQuestion = True
+                
+    enterPressed = False
+    inputCounter += 1
 
-                    definition.append(inputText)
-                    inputText = ""
-                    takingQuestion = True
+    if len(definition) == cardCount:
+        makeCards = False
 
-        enterPressed = False
-        inputCounter += 1
+    if not start and not makeCards:
 
-        if inputCounter == cardCount:
-            makeCards = False
-
-    else:
-
-        textToDisplay = question[0]
+        try:
+            textToDisplay = question[0]
+        except:
+            None
 
         #changing the text if the space bar is clicked
         if next:
