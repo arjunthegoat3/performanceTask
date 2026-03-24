@@ -16,6 +16,7 @@ doQuestions = True
 enterPressed = False
 cardCount = ""
 takingQuestion = True
+firstQuestionCycle = True
 
 def checkTheText(currentText, questionList, definitionList):
     
@@ -36,16 +37,6 @@ def checkTheText(currentText, questionList, definitionList):
 #numberOfCards = input("How many cards do you want to input? (please input as a number) ")
 
 inputting = True
-"""
-for i in range(0, int(numberOfCards)):
-    print("\nNEW CARD")
-    questionInput = input("What is the question for this card ")
-    definitionInput = input("what is the answer for the question ")
-
-    question.append(questionInput)
-    definition.append(definitionInput)
-    inputting = False
-"""
 textToDisplay = ""
 
 w = pygame.display.set_mode((700, 700))
@@ -91,7 +82,7 @@ while running:
         text = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
         w.blit(text, (250, 250))
 
-        if enterPressed:
+        if enterPressed or next:
 
             makeCards = True
             cardCount = int(inputText)
@@ -129,28 +120,26 @@ while running:
                 inputText = ""
                 enterPressed = False
                 takingQuestion = True
+
                 
-    enterPressed = False
     inputCounter += 1
 
     if len(definition) == cardCount:
         makeCards = False
+        textToDisplay = question[0]
 
     if not start and not makeCards:
 
-        try:
-            textToDisplay = question[0]
-        except:
-            None
-
-        #changing the text if the space bar is clicked
+        
+        
+        #changing the text if the space bar is clicked or enter is pressed
         if next or enterPressed:
             textToDisplay = checkTheText(textToDisplay, question, definition)
             next = False
+            enterPressed = False
 
-
-        text = font.render(textToDisplay, True, (0, 0, 0))
-        w.blit(text, (250, 250))        
+        questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
+        w.blit(questionCycleText, (250, 250))        
         
     pygame.display.flip()
 
