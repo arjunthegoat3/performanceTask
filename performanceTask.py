@@ -9,9 +9,12 @@ next = False
 clock = pygame.time.Clock()
 inputText = ""
 inputCounter = 0
-setup = True
 currentCard = 0
-typingQuestion = True
+start = True
+makeCards = True
+doQuestions = True
+enterPressed = False
+cardCount = ""
 
 def checkTheText(currentText, questionList, definitionList):
     
@@ -65,15 +68,8 @@ while running:
             elif event.key == pygame.K_BACKSPACE:
                 inputText = inputText[0:(len(inputText) - 1)]
             
-            #enter key programmed by chatgpt
             elif event.key == pygame.K_RETURN:
-                if typingQuestion:
-                    question.append(inputText)
-                    typingQuestion = False
-                else:
-                    definition.append(inputText)
-                    typingQuestion = True
-                    currentCard += 1
+                enterPressed = True
             else:
                 inputText += pygame.key.name(event.key)
 
@@ -83,7 +79,70 @@ while running:
     font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
 
     #putting the text onto the screen
-    
+
+    if start:
+        
+        text = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
+        w.blit(text, (250, 250))
+
+        if enterPressed:
+
+            cardCount = str(inputText)
+            inputText = ""
+            makeCards = True
+            start = False
+
+    elif makeCards:
+
+        takingQuestion = True
+
+        if takingQuestion:
+
+            questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
+            w.blit(questionOutput, (250, 250))
+
+            if enterPressed:
+
+                question.append(inputText)
+                inputText = ""
+                takingQuestion = False
+            
+
+        else:
+
+            definitionOutput = font.render("What is the answer for this card? ", True, (0, 0, 0))
+            w.blit(definitionOutput, (250, 250))
+
+            if enterPressed:
+
+
+                definition.append(inputText)
+                inputText = ""
+                takingQuestion = True
+
+        enterPressed = False
+        inputCounter += 1
+
+        if inputCounter == cardCount:
+            makeCards = False
+
+    else:
+
+        textToDisplay = question[0]
+
+        #changing the text if the space bar is clicked
+        if next:
+            textToDisplay = checkTheText(textToDisplay, question, definition)
+            next = False
+
+
+        text = font.render(textToDisplay, True, (0, 0, 0))
+        w.blit(text, (250, 250))
+
+
+
+        
+    """
     if inputting:
 
         if setup:
@@ -101,6 +160,7 @@ while running:
             numberOfCards = 0
             font.render("How many cards do you want to input? - please input as a number (ex. 15) ", True, (0, 0, 0))
             
+        if setup:
         #this part is written by chatgpt (beginning of chagpt programmed part)
         counter = font.render(("card " + str(currentCard)), True, (255, 0, 0))
         w.blit(counter, (20, 20))
@@ -138,15 +198,14 @@ while running:
         
         
     else:
+    
+    """
         
-        try:
+        
 
-            text = font.render(textToDisplay, True, (0, 0, 0))
-            w.blit(text, (250, 250))
+    
 
-        except:
-
-            None
+        
         
     pygame.display.flip()
 
