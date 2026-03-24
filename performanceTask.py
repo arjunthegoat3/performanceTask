@@ -34,6 +34,13 @@ def checkTheText(currentText, questionList, definitionList):
         elif definitionList[i] == currentText:
             return questionList[(i + 1)]
         
+def getXToCenter(surfaceToCenter):
+
+    #gets the x value with which the text will be centered
+
+    rect = surfaceToCenter.get_rect()
+    return ((rect.x/2) - 350)
+        
 #numberOfCards = input("How many cards do you want to input? (please input as a number) ")
 
 inputting = True
@@ -71,6 +78,7 @@ while running:
 
     #having text be displayed when the boolean is true
     if showUserInput:
+        
         userInput = font.render(inputText, True, (0, 0, 255))
         w.blit(userInput, (250, 600))
 
@@ -99,7 +107,7 @@ while running:
         if takingQuestion:
 
             if not enterPressed:
-
+                
                 questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
                 w.blit(questionOutput, (250, 250))
 
