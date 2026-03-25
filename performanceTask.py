@@ -39,7 +39,8 @@ def getXToCenter(surfaceToCenter):
     #gets the x value with which the text will be centered
 
     rect = surfaceToCenter.get_rect()
-    return ((rect.x/2) - 350)
+    temp = (350 - (rect.width/2))
+    return temp
         
 #numberOfCards = input("How many cards do you want to input? (please input as a number) ")
 
@@ -80,7 +81,8 @@ while running:
     if showUserInput:
         
         userInput = font.render(inputText, True, (0, 0, 255))
-        w.blit(userInput, (250, 600))
+        inputX = getXToCenter(userInput)
+        w.blit(userInput, (getXToCenter(userInput), 600))
 
     """
     checking which boolean is true ands based on that running that part of the program,
@@ -91,7 +93,7 @@ while running:
 
     if start:
         
-        text = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
+        text = font.render("How many cards do you want to input? \n(please input as a number) ", True, (0, 0, 0))
         w.blit(text, (250, 250))
 
         if enterPressed:
