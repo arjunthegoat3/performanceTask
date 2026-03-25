@@ -16,7 +16,7 @@ cardCount = ""
 takingQuestion = True
 firstQuestionCycle = True
 showUserInput = True
-
+showFeedback = False
 
 correct = 0
 incorrect = 0
@@ -162,15 +162,25 @@ while running:
             firstQuestionCycle = False
 
         if enterPressed:
-            attempted += 1
             for i in range(len(question)):
                 if textToDisplay == question[i]:
                     if inputText.lower() == definition[i].lower():
                         correct += 1
+                        attempted += 1
                         feedback = "Correct!"
+                        
                     else:
                         incorrect += 1
+                        attempted += 1
+
                         feedback = "Incorrect!"
+
+            #if showfeedback is already true, it becomes false otherwise it becomes true
+
+            if showFeedback:
+                showFeedback = False
+            else:
+                showFeedback = True
             inputText = ""
             textToDisplay = checkTheText(textToDisplay, question, definition)
             enterPressed = False
@@ -188,8 +198,14 @@ while running:
         wrongText = font.render(f"Incorrect: {incorrect}", True, (255, 0, 0))
         w.blit(wrongText, (20, 60))
 
-        feedbackText = font.render(feedback, True, (0, 150, 0))
-        w.blit(feedbackText, (getXToCenter(feedbackText), 350))
+        if showFeedback:
+            if feedback == "Incorrect!":
+                feedbackColor = (255, 0, 0)
+            else:
+                feedbackColor = (0, 255, 0)
+
+            feedbackText = font.render(feedback, True, feedbackColor)
+            w.blit(feedbackText, (getXToCenter(feedbackText), 350))
 # ChatGPT, used for Debugging  
 # 
     pygame.display.flip()
