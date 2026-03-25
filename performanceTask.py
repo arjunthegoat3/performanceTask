@@ -17,6 +17,7 @@ takingQuestion = True
 firstQuestionCycle = True
 showUserInput = True
 showFeedback = False
+showWarning = False
 
 correct = 0
 incorrect = 0
@@ -55,6 +56,8 @@ textToDisplay = ""
 
 w = pygame.display.set_mode((700, 700))
 icon = pygame.image.load("icon.png") #notebook picture, from dreamstime website
+backButton = pygame.image.load("back.png") #made in canva
+nextButton = pygame.image.load("next.png") #made in canva
 pygame.display.set_icon(icon)
 pygame.display.set_caption("FLASH CARDS")
 font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
@@ -102,13 +105,26 @@ while running:
         nutX = getXToCenter(numberInputText)
         w.blit(numberInputText, (nutX, 250))
 
+        if showWarning:
+
+            warning = font.render("Please enter your answer as a number (ex. 10)", True, (255, 0, 0))
+            w.blit(warning, (getXToCenter(warning), 400))
+
         if enterPressed:
 
-            makeCards = True
-            cardCount = int(inputText)
-            inputText = ""
-            start = False
-            enterPressed = False
+            #tries to typecast the input to an int, if not possible adds a warning to the front end
+
+            try:
+                cardCount = int(inputText)
+                makeCards = True
+                inputText = ""
+                start = False
+                showWarning = False
+                enterPressed = False
+            except:
+                showWarning = True
+                enterPressed = False
+        
 
     elif makeCards:
 
