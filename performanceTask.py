@@ -111,7 +111,8 @@ while running:
             if not enterPressed:
                 
                 questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
-                w.blit(questionOutput, (250, 250))
+                qoX = getXToCenter(questionOutput)
+                w.blit(questionOutput, (qoX, 250))
 
             else:
 
@@ -126,7 +127,8 @@ while running:
             if not enterPressed:
 
                 definitionOutput = font.render("What is the answer for this card? ", True, (0, 0, 0))
-                w.blit(definitionOutput, (250, 250))
+                doX = getXToCenter(definitionOutput)
+                w.blit(definitionOutput, (doX, 250))
 
             else:
 
@@ -159,7 +161,8 @@ while running:
             enterPressed = False
 
         questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
-        w.blit(questionCycleText, (250, 250))        
+        qctX = getXToCenter(questionCycleText)
+        w.blit(questionCycleText, (qctX, 250))    
         
     pygame.display.flip()
 
