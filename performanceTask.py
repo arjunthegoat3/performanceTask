@@ -17,6 +17,13 @@ takingQuestion = True
 firstQuestionCycle = True
 showUserInput = True
 
+
+correct = 0
+incorrect = 0
+attempted = 0
+feedback = ""
+#ChatGPT
+x
 def checkTheText(currentText, questionList, definitionList):
     
     #uses a for loop to see what text is there, and updates the text to the next text that needs to be displayed
@@ -148,23 +155,40 @@ while running:
 
     if not start and not makeCards:
 
-        showUserInput = False
+        showUserInput = True
 
-        #changing the text if the space bar is clicked or enter is pressed
         if firstQuestionCycle:
             textToDisplay = checkTheText(textToDisplay, question, definition)
             firstQuestionCycle = False
 
         if enterPressed:
+            attempted += 1
+            for i in range(len(question)):
+                if textToDisplay == question[i]:
+                    if inputText.lower() == definition[i].lower():
+                        correct += 1
+                        feedback = "Correct!"
+                    else:
+                        incorrect += 1
+                        feedback = "Incorrect!"
+            inputText = ""
             textToDisplay = checkTheText(textToDisplay, question, definition)
             enterPressed = False
 
         questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
         qctX = getXToCenter(questionCycleText)
-        w.blit(questionCycleText, (qctX, 250))    
-        
+        w.blit(questionCycleText, (qctX, 250))
+
+        scoreText = font.render(f"Score: {correct}/{attempted}", True, (0, 0, 0))
+        w.blit(scoreText, (20, 20))
+
+        wrongText = font.render(f"Incorrect: {incorrect}", True, (255, 0, 0))
+        w.blit(wrongText, (20, 60))
+
+        feedbackText = font.render(feedback, True, (0, 150, 0))
+        w.blit(feedbackText, (getXToCenter(feedbackText), 350))
+# ChatGPT, used for Debugging  
+# 
     pygame.display.flip()
 
     clock.tick(60)
-
-
