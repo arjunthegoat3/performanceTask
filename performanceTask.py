@@ -23,7 +23,7 @@ incorrect = 0
 attempted = 0
 feedback = ""
 #ChatGPT
-x
+
 def checkTheText(currentText, questionList, definitionList):
     
     #uses a for loop to see what text is there, and updates the text to the next text that needs to be displayed
@@ -179,8 +179,11 @@ while running:
         qctX = getXToCenter(questionCycleText)
         w.blit(questionCycleText, (qctX, 250))
 
-        scoreText = font.render(f"Score: {correct}/{attempted}", True, (0, 0, 0))
-        w.blit(scoreText, (20, 20))
+        attemptedNumber = font.render("Attempted: " + str(attempted), True, (0, 0, 0))
+        w.blit(attemptedNumber, (20, 40))
+
+        correctText = font.render("Correct: " + str(correct), True, (0,255,0))
+        w.blit(correctText, (20,20))
 
         wrongText = font.render(f"Incorrect: {incorrect}", True, (255, 0, 0))
         w.blit(wrongText, (20, 60))
