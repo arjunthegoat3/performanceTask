@@ -81,7 +81,6 @@ while running:
     if showUserInput:
         
         userInput = font.render(inputText, True, (0, 0, 255))
-        inputX = getXToCenter(userInput)
         w.blit(userInput, (getXToCenter(userInput), 600))
 
     """
@@ -93,8 +92,9 @@ while running:
 
     if start:
         
-        text = font.render("How many cards do you want to input? \n(please input as a number) ", True, (0, 0, 0))
-        w.blit(text, (250, 250))
+        numberInputText = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
+        nutX = getXToCenter(numberInputText)
+        w.blit(numberInputText, (nutX, 250))
 
         if enterPressed:
 
