@@ -19,6 +19,8 @@ showUserInput = True
 showFeedback = False
 showWarning = False
 mouseDown = False
+cardRect = pygame.Rect(100, 100, 500, 350)
+showCardBackground = True
 
 correct = 0
 incorrect = 0
@@ -100,8 +102,8 @@ while running:
             elif event.key == pygame.K_RETURN:
                 enterPressed = True
             else:
-                if len(pygame.key.name(event.key)) == 1:
-                    inputText += pygame.key.name(event.key)
+                if event.unicode.isprintable:
+                    inputText += event.unicode
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
 
@@ -125,7 +127,7 @@ while running:
 
     if start:
         
-        numberInputText = font.render("How many cards do you want to input? (please input as a number) ", True, (0, 0, 0))
+        numberInputText = font.render("How many questions do you want to create? (please input as a number) ", True, (0, 0, 0))
         nutX = getXToCenter(numberInputText)
         w.blit(numberInputText, (nutX, 250))
 
@@ -136,7 +138,8 @@ while running:
 
         if enterPressed:
 
-            #tries to typecast the input to an int, if not possible adds a warning to the front end
+            #tries to typecast the input to an int, if not possible adds a warning to the front end,
+            #if possible moves to the question creation cycle
 
             try:
                 cardCount = int(inputText)
@@ -217,6 +220,8 @@ while running:
                         attempted += 1
 
                         feedback = "Incorrect!"
+                    
+                    showCardBackground = True
 
             #if showfeedback is already true, it becomes false otherwise it becomes true
 
@@ -228,9 +233,13 @@ while running:
             textToDisplay = cycleTheText(textToDisplay, question, definition)
             enterPressed = False
 
-        questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
-        qctX = getXToCenter(questionCycleText)
-        w.blit(questionCycleText, (qctX, 250))
+        pygame.draw.rect(w, (200, 200, 200), cardRect)
+
+        if showCardBackground:
+            questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
+            qctX = getXToCenter(questionCycleText)
+            w.blit(questionCycleText, (qctX, 250))
+
 
         attemptedNumber = font.render("Attempted: " + str(attempted), True, (0, 0, 0))
         w.blit(attemptedNumber, (20, 40))
@@ -242,11 +251,18 @@ while running:
         w.blit(wrongText, (20, 60))
 
         if showFeedback:
+
+            #when showFeedback is true, the question/answer cycle is showing the answer
+            #so showCardBackground is updated here for ease of use
+            showCardBackground = False
+
             if feedback == "Incorrect!":
                 answerText = font.render("Answer:", True, (255, 0, 0))
                 w.blit(answerText, (getXToCenter(answerText), 230))
                 feedbackColor = (255, 0, 0)
             else:
+                answerText = font.render("Answer:", True, (255, 0, 0))
+                w.blit(answerText, (getXToCenter(answerText), 230))
                 feedbackColor = (0, 200, 0)
 
             feedbackText = font.render(feedback, True, feedbackColor)
