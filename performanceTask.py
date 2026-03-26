@@ -18,6 +18,7 @@ firstQuestionCycle = True
 showUserInput = True
 showFeedback = False
 showWarning = False
+mouseDown = False
 
 correct = 0
 incorrect = 0
@@ -25,9 +26,10 @@ attempted = 0
 feedback = ""
 #ChatGPT
 
-def checkTheText(currentText, questionList, definitionList):
+def cycleTheText(currentText, questionList, definitionList):
     
-    #uses a for loop to see what text is there, and updates the text to the next text that needs to be displayed
+    #uses a for loop to see what text is there, and updates the 
+    #text to the next text that needs to be displayed, returns a string
 
     for i in range(0, len(questionList)):
 
@@ -41,15 +43,33 @@ def checkTheText(currentText, questionList, definitionList):
         elif definitionList[i] == currentText:
             return questionList[(i + 1)]
         
-def getXToCenter(surfaceToCenter):
+def getXToCenter(surface):
 
-    #gets the x value with which the text will be centered
+    #gets the x value with which the text will be centered,
+    #returns an int
 
-    rect = surfaceToCenter.get_rect()
+    rect = surface.get_rect()
     temp = (350 - (rect.width/2))
     return temp
+
+def getCollisionStatus(surface, x, y):
+
+    #finds the coordinate of the mouse and checks if it collides with the
+    #provided surface, returns a boolean
+    global mouseDown
+
+    mouseCoordinate = pygame.mouse.get_pos()
+    rect = surface.get_rect(topleft = (x, y))
+
+    if rect.collidepoint(mouseCoordinate) and mouseDown:
+
+        return True
+    
+    else:
+
+        return False
+
         
-#numberOfCards = input("How many cards do you want to input? (please input as a number) ")
 
 inputting = True
 textToDisplay = ""
@@ -82,6 +102,10 @@ while running:
             else:
                 if len(pygame.key.name(event.key)) == 1:
                     inputText += pygame.key.name(event.key)
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+
+            mouseDown = True
 
                         
     w.fill((255, 255, 255))
@@ -173,11 +197,14 @@ while running:
 
         showUserInput = True
 
+        w.blit(backButton, (150, 500))
+        w.blit(nextButton, (450, 500))
+
         if firstQuestionCycle:
-            textToDisplay = checkTheText(textToDisplay, question, definition)
+            textToDisplay = cycleTheText(textToDisplay, question, definition)
             firstQuestionCycle = False
 
-        if enterPressed:
+        if enterPressed or getCollisionStatus(nextButton, 450, 500):
             for i in range(len(question)):
                 if textToDisplay == question[i]:
                     if inputText.lower() == definition[i].lower():
@@ -198,7 +225,7 @@ while running:
             else:
                 showFeedback = True
             inputText = ""
-            textToDisplay = checkTheText(textToDisplay, question, definition)
+            textToDisplay = cycleTheText(textToDisplay, question, definition)
             enterPressed = False
 
         questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
@@ -208,7 +235,7 @@ while running:
         attemptedNumber = font.render("Attempted: " + str(attempted), True, (0, 0, 0))
         w.blit(attemptedNumber, (20, 40))
 
-        correctText = font.render("Correct: " + str(correct), True, (0,255,0))
+        correctText = font.render("Correct: " + str(correct), True, (0,200,0))
         w.blit(correctText, (20,20))
 
         wrongText = font.render(f"Incorrect: {incorrect}", True, (255, 0, 0))
@@ -216,14 +243,16 @@ while running:
 
         if showFeedback:
             if feedback == "Incorrect!":
+                answerText = font.render("Answer:", True, (255, 0, 0))
+                w.blit(answerText, (getXToCenter(answerText), 230))
                 feedbackColor = (255, 0, 0)
             else:
-                feedbackColor = (0, 255, 0)
+                feedbackColor = (0, 200, 0)
 
             feedbackText = font.render(feedback, True, feedbackColor)
             w.blit(feedbackText, (getXToCenter(feedbackText), 350))
 # ChatGPT, used for Debugging  
 # 
     pygame.display.flip()
-
+    mouseDown = False
     clock.tick(60)
