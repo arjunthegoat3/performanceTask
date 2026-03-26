@@ -19,6 +19,7 @@ showUserInput = True
 showFeedback = False
 showWarning = False
 mouseDown = False
+finished = False
 cardRect = pygame.Rect(100, 100, 500, 350)
 
 correct = 0
@@ -33,11 +34,6 @@ def cycleTheText(currentText, questionList, definitionList, goBack=False):
     #text to the next text that needs to be displayed, returns a string
 
     for i in range(0, len(questionList)):
-
-        if goBack:
-
-            if questionList[i] == currentText or definitionList[i] == currentText:
-                return questionList[(i - 1)]
 
         #checking to see if i is too large, in which case returning questionList[0]
         #so that the questions cycle through again
@@ -87,6 +83,9 @@ nextButton = pygame.image.load("next.png") #made in canva
 pygame.display.set_icon(icon)
 pygame.display.set_caption("FLASH CARDS")
 font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
+largeFont = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 40) #roboto, taken from google fonts
+largeFont.set_bold(True)
+
 running = True
 while running:
 
@@ -220,9 +219,21 @@ while running:
             firstQuestionCycle = True
             makeCards = False
             
-            
+    #section for if the program is finished
+    if finished:
 
-    if not start and not makeCards:
+        showUserInput = False
+        scoreText = largeFont.render("Your score " + str(correct) + "/" + str(attempted), True, (200, 200, 0))
+        try:
+            scorePercent = 100*(correct/attempted)
+        except:
+            scorePercent = 0
+        
+        scoreTextPercent = largeFont.render(str(scorePercent) + "%", True, (255, 0, 0))
+        w.blit(scoreText, (getXToCenter(scoreText), 100))
+        w.blit(scoreTextPercent, (getXToCenter(scoreTextPercent), 145))
+
+    elif not start and not makeCards:
 
         showUserInput = True
 
@@ -247,7 +258,6 @@ while running:
                     attempted += 1
                     
                     showCardBackground = True
-                
 
             #if showfeedback is already true, it becomes false otherwise it becomes true
 
@@ -258,6 +268,11 @@ while running:
             inputText = "Type here:"
             textToDisplay = cycleTheText(textToDisplay, question, definition)
             enterPressed = False
+
+        elif getCollisionStatus(finishButton, 150, 500):
+
+            finished = True
+
 
         pygame.draw.rect(w, (200, 200, 200), cardRect)
 
