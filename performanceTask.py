@@ -1,11 +1,11 @@
 import pygame
 pygame.init()
-import keyboard
+pygame.key.set_repeat(300, 50)
 
 question = []
 definition = []
 clock = pygame.time.Clock()
-inputText = ""
+inputText = "Type here:"
 inputCounter = 0
 currentCard = 0
 start = True
@@ -93,17 +93,39 @@ while running:
             #is shown the boolean will be set back to false.
             
             if event.key == pygame.K_SPACE:
-                inputText += " "
+                if inputText != "Type here:":
+                    inputText += " "
+                else:
+                    inputText = ""
+                    inputText += " "
             
             elif event.key == pygame.K_BACKSPACE:
-                inputText = inputText[0:(len(inputText) - 1)]
-            
-            elif event.key == pygame.K_RETURN:
-                enterPressed = True
-            else:
-                if event.unicode.isprintable:
-                    inputText += event.unicode
 
+                if inputText != "Type here:":
+                    inputText = inputText[0:(len(inputText) - 1)]
+                else:
+                    inputText = ""
+                    inputText = inputText[0:(len(inputText) - 1)]
+                    
+            elif event.key == pygame.K_RETURN:
+
+                if inputText != "Type here:":
+                    enterPressed = True
+                else:
+                    inputText = ""
+                    enterPressed = True
+
+            else:
+
+                if inputText != "Type here:":
+                    if event.unicode.isprintable:
+                        inputText += event.unicode
+
+                else:
+                    inputText = ""
+                    if event.unicode.isprintable:
+                        inputText += event.unicode
+                    
         elif event.type == pygame.MOUSEBUTTONDOWN:
 
             mouseDown = True
@@ -143,7 +165,7 @@ while running:
             try:
                 cardCount = int(inputText)
                 makeCards = True
-                inputText = ""
+                inputText = "Type here:"
                 start = False
                 showWarning = False
                 enterPressed = False
@@ -165,7 +187,7 @@ while running:
             else:
 
                 question.append(inputText)
-                inputText = ""
+                inputText = "Type here:"
                 enterPressed = False
                 takingQuestion = False
                 
@@ -181,7 +203,7 @@ while running:
             else:
 
                 definition.append(inputText)
-                inputText = ""
+                inputText = "Type here:"
                 enterPressed = False
                 takingQuestion = True
                 
@@ -228,7 +250,7 @@ while running:
                 showFeedback = False
             else:
                 showFeedback = True
-            inputText = ""
+            inputText = "Type here:"
             textToDisplay = cycleTheText(textToDisplay, question, definition)
             enterPressed = False
 
