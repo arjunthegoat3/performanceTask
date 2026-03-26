@@ -1,6 +1,6 @@
 import pygame
 pygame.init()
-pygame.key.set_repeat(300, 50)
+pygame.key.set_repeat(300, 50) #line written by ChatGPT
 
 question = []
 definition = []
@@ -27,12 +27,17 @@ attempted = 0
 feedback = ""
 #ChatGPT
 
-def cycleTheText(currentText, questionList, definitionList):
+def cycleTheText(currentText, questionList, definitionList, goBack=False):
     
     #uses a for loop to see what text is there, and updates the 
     #text to the next text that needs to be displayed, returns a string
 
     for i in range(0, len(questionList)):
+
+        if goBack:
+
+            if questionList[i] == currentText or definitionList[i] == currentText:
+                return questionList[(i - 1)]
 
         #checking to see if i is too large, in which case returning questionList[0]
         #so that the questions cycle through again
