@@ -20,7 +20,6 @@ showFeedback = False
 showWarning = False
 mouseDown = False
 cardRect = pygame.Rect(100, 100, 500, 350)
-showCardBackground = True
 
 correct = 0
 incorrect = 0
@@ -212,16 +211,16 @@ while running:
                 if textToDisplay == question[i]:
                     if inputText.lower() == definition[i].lower():
                         correct += 1
-                        attempted += 1
                         feedback = "Correct!"
                         
                     else:
                         incorrect += 1
-                        attempted += 1
-
                         feedback = "Incorrect!"
+
+                    attempted += 1
                     
                     showCardBackground = True
+                
 
             #if showfeedback is already true, it becomes false otherwise it becomes true
 
@@ -235,16 +234,16 @@ while running:
 
         pygame.draw.rect(w, (200, 200, 200), cardRect)
 
-        if showCardBackground:
-            questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
-            qctX = getXToCenter(questionCycleText)
-            w.blit(questionCycleText, (qctX, 250))
+
+        questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
+        qctX = getXToCenter(questionCycleText)
+        w.blit(questionCycleText, (qctX, 250))
 
 
         attemptedNumber = font.render("Attempted: " + str(attempted), True, (0, 0, 0))
         w.blit(attemptedNumber, (20, 40))
 
-        correctText = font.render("Correct: " + str(correct), True, (0,200,0))
+        correctText = font.render("Correct: " + str(correct), True, (0, 255, 0))
         w.blit(correctText, (20,20))
 
         wrongText = font.render(f"Incorrect: {incorrect}", True, (255, 0, 0))
@@ -254,14 +253,13 @@ while running:
 
             #when showFeedback is true, the question/answer cycle is showing the answer
             #so showCardBackground is updated here for ease of use
-            showCardBackground = False
 
             if feedback == "Incorrect!":
                 answerText = font.render("Answer:", True, (255, 0, 0))
                 w.blit(answerText, (getXToCenter(answerText), 230))
                 feedbackColor = (255, 0, 0)
-            else:
-                answerText = font.render("Answer:", True, (255, 0, 0))
+            elif feedback == "Correct!":
+                answerText = font.render("Answer:", True, (0, 200, 0))
                 w.blit(answerText, (getXToCenter(answerText), 230))
                 feedbackColor = (0, 200, 0)
 
