@@ -77,7 +77,7 @@ textToDisplay = ""
 
 w = pygame.display.set_mode((700, 700))
 icon = pygame.image.load("icon.png") #notebook picture, from dreamstime website
-backButton = pygame.image.load("back.png") #made in canva
+finishButton = pygame.image.load("finishButton.png") #made in canva
 nextButton = pygame.image.load("next.png") #made in canva
 pygame.display.set_icon(icon)
 pygame.display.set_caption("FLASH CARDS")
@@ -221,7 +221,7 @@ while running:
 
         showUserInput = True
 
-        w.blit(backButton, (150, 500))
+        w.blit(finishButton, (150, 500))
         w.blit(nextButton, (450, 500))
 
         if firstQuestionCycle:
