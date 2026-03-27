@@ -21,6 +21,7 @@ showWarning = False
 mouseDown = False
 finished = False
 cardRect = pygame.Rect(100, 100, 500, 350)
+homePage = True
 
 correct = 0
 incorrect = 0
@@ -150,7 +151,18 @@ while running:
     then the program will go into quizzing the user.
     """
 
-    if start:
+    if homePage:
+
+        titleText = largeFont.render("FLASHCARD MAKER", True, (0, 0, 0))
+        w.blit(titleText, (getXToCenter(titleText), 250))
+
+        w.blit(nextButton, (getXToCenter(nextButton), 500))
+
+        if getCollisionStatus(nextButton, getXToCenter(nextButton), 500):
+
+            homePage = False
+
+    elif start:
         
         numberInputText = font.render("How many questions do you want to create? (please input as a number) ", True, (0, 0, 0))
         nutX = getXToCenter(numberInputText)
@@ -228,6 +240,12 @@ while running:
             scorePercent = 100*(correct/attempted)
         except:
             scorePercent = 0
+
+        w.blit(finishButton, (getXToCenter(finishButton), 500))
+
+        if getCollisionStatus(finishButton, getXToCenter(finishButton), 500):
+
+            running = False
         
         scoreTextPercent = largeFont.render(str(scorePercent) + "%", True, (255, 0, 0))
         w.blit(scoreText, (getXToCenter(scoreText), 100))
