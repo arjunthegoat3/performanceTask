@@ -231,6 +231,9 @@ while running:
         except:
             scorePercent = 0
 
+        #typecasting to int to avoid weird numbers
+        scorePercent = int(scorePercent)
+
         w.blit(finishButton, (getXToCenter(finishButton), 500))
 
         if getCollisionStatus(finishButton, getXToCenter(finishButton), 500):
