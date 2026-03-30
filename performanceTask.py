@@ -211,7 +211,7 @@ while running:
             else:
 
                 definition.append(inputText)
-                cardIDs.append(len(definition) + 1)
+                cardIDs.append(len(definition)) #assigning unique number to each card
                 inputText = "Type here:"
                 enterPressed = False
                 takingQuestion = True
@@ -247,7 +247,7 @@ while running:
         showUserInput = True
 
         cardNumberText = font.render(
-             f"Card # {cardIDs[currentCard]} out of {len(question)}",
+             f"Card # {cardIDs[currentCard]} out of {len(question)}", #display card # out of total
              True, 
               (0, 0, 0)
             )
