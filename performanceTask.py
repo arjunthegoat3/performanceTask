@@ -36,7 +36,15 @@ def cycleTheText(currentText, questionList, definitionList, goBack=False):
     
     for i in range(0, len(questionList)):
 
+        #uses a for loop to see what text is there, and updates the 
+        #text to the next text that needs to be displayed, returns a string
+
+        
         if currentText == definitionList[(len(questionList) - 1)] or currentText == "":
+
+            #checking to see if i is too large, in which case returning questionList[0]
+            #so that the questions cycle through again
+
             return(questionList[0])
 
         if questionList[i] == currentText:
@@ -46,11 +54,17 @@ def cycleTheText(currentText, questionList, definitionList, goBack=False):
         
 def getXToCenter(surface):
 
+    #gets the x value with which the text will be centered,
+    #returns an int
+
     rect = surface.get_rect()
     temp = (350 - (rect.width/2))
     return temp
 
 def getCollisionStatus(surface, x, y):
+
+    #finds the coordinate of the mouse and checks if it collides with the
+    #provided surface, returns a boolean
 
     global mouseDown
 
@@ -66,13 +80,13 @@ inputting = True
 textToDisplay = ""
 
 w = pygame.display.set_mode((700, 700))
-icon = pygame.image.load("icon.png")
-finishButton = pygame.image.load("finishButton.png")
-nextButton = pygame.image.load("next.png")
+icon = pygame.image.load("icon.png") #notebook picture, from dreamstime website
+finishButton = pygame.image.load("finishButton.png") #made in canva
+nextButton = pygame.image.load("next.png") #made in canva
 pygame.display.set_icon(icon)
 pygame.display.set_caption("FLASH CARDS")
-font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20)
-largeFont = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 40)
+font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
+largeFont = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 40) #roboto, taken from google fonts
 largeFont.set_bold(True)
 
 running = True
@@ -83,6 +97,9 @@ while running:
             running = False
 
         elif event.type == pygame.KEYDOWN:
+
+            #if the space key is pressed, it will trigger a boolean and when the next question/slide
+            #is shown the boolean will be set back to false.
             
             if event.key == pygame.K_s:
                   shuffleMode = not shuffleMode
@@ -138,6 +155,8 @@ while running:
     w.fill((255, 255, 255))
 
     if showUserInput:
+
+        #having text be displayed when the boolean is true
         
         inputBox = pygame.Rect(100, 580, 500, 40)
         pygame.draw.rect(w, (240, 240, 240), inputBox, border_radius=10)
@@ -145,6 +164,13 @@ while running:
 
         userInput = font.render(inputText, True, (0, 0, 255))
         w.blit(userInput, (inputBox.x + 10, inputBox.y + 8))
+
+    """
+    checking which boolean is true ands based on that running that part of the program,
+    in the start it collects the amount of cards the program wants to make,
+    then alternates between getting the question and answer for each card,
+    then the program will go into quizzing the user.
+    """
 
     if homePage:
 
@@ -162,8 +188,7 @@ while running:
     elif start:
         
         numberInputText = font.render("How many questions do you want to create? (please input as a number) ", True, (0, 0, 0))
-        nutX = getXToCenter(numberInputText)
-        w.blit(numberInputText, (nutX, 250))
+        w.blit(numberInputText, (getXToCenter(numberInputText), 250))
 
         if showWarning:
 
@@ -171,6 +196,9 @@ while running:
             w.blit(warning, (getXToCenter(warning), 400))
 
         if enterPressed:
+
+            #tries to typecast the input to an int, if not possible adds a warning to the front end,
+            #if possible moves to the question creation cycle
 
             try:
                 cardCount = int(inputText)
@@ -221,7 +249,7 @@ while running:
         if len(definition) == cardCount:
             firstQuestionCycle = True
             makeCards = False
-
+    #section for if the program is finished
     if finished:
 
         showUserInput = False
@@ -276,10 +304,12 @@ while running:
 
                     attempted += 1
 
+            #if showfeedback is already true, it becomes false otherwise it becomes true
             if showFeedback:
                 showFeedback = False
             else:
                 showFeedback = True
+            
             inputText = "Type here:"
             textToDisplay = cycleTheText(textToDisplay, question, definition)
             enterPressed = False
@@ -320,7 +350,9 @@ while running:
 
             feedbackText = largeFont.render(feedback, True, feedbackColor)
             w.blit(feedbackText, (getXToCenter(feedbackText), 350))
-
+            
+# ChatGPT, used for Debugging  
+# 
             
     pygame.display.flip()
     mouseDown = False
