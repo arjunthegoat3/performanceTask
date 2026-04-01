@@ -87,7 +87,7 @@ def getCollisionStatus(surface, x, y):
     else:
         return False
 
-
+#--PYGAME OBJECT DEFINITIONS--#
 
 #creating and configuring all pygame objects
 w = pygame.display.set_mode((700, 700))
@@ -103,9 +103,12 @@ clickSound = pygame.mixer.Sound("universfield-computer-mouse-click-352734.mp3") 
 clickSound.set_volume(0.7)
 largeFont.set_bold(True)
 
+#--PYGAME FOR LOOP--#
+
 running = True
 while running:
 
+    #--EVENT LOOP--#
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -156,6 +159,8 @@ while running:
 
     w.fill((255, 255, 255))
 
+    #--BLITTING USER INPUT IF TO BE SHOWN--#
+
     if showUserInput:
 
         #having text be displayed when the boolean is true
@@ -174,6 +179,8 @@ while running:
     then the program will go into quizzing the user.
     """
 
+    #--BLITTING ELEMENTS IF USER IS ON HOMEPAGE--#
+
     if homePage:
 
         showUserInput = False
@@ -186,6 +193,8 @@ while running:
 
             showUserInput = True
             homePage = False
+
+    #--AMOUNT OF CARDS INPUTTING--#
 
     elif start:
         
@@ -212,6 +221,8 @@ while running:
             except:
                 showWarning = True
                 enterPressed = False
+
+    #--QUESTION INPUT CYCLE--#
 
     elif makeCards:
 
@@ -269,6 +280,9 @@ while running:
             firstQuestionCycle = True
             makeCards = False
     #section for if the program is finished
+
+    #--FINSIHED ANSWERING OUTPUT--#
+
     if finished:
 
         showUserInput = False
@@ -290,6 +304,8 @@ while running:
         scoreTextPercent = largeFont.render(str(scorePercent) + "%", True, (255, 0, 0))
         w.blit(scoreText, (getXToCenter(scoreText), 100))
         w.blit(scoreTextPercent, (getXToCenter(scoreTextPercent), 145))
+
+    #--QUESTION AND ANSWER CYCLE--#
 
     elif not start and not makeCards:
 
@@ -355,6 +371,7 @@ while running:
 
             finished = True
 
+        #--DRAWING CONSISTANT ELEMENTS--#
         pygame.draw.rect(w, (230, 230, 230), cardRect, border_radius=15)
         pygame.draw.rect(w, (0, 0, 0), cardRect, 3, border_radius=15)
 
@@ -375,6 +392,8 @@ while running:
         w.blit(shuffleText, (20,80))
         #displays wheter the shuffle mode is on or off
 
+        #--SHOWING FEEDBACK IF SHOWING ANSWER--#
+
         if showFeedback:
 
             if feedback == "Incorrect!":
@@ -391,6 +410,7 @@ while running:
             
 # ChatGPT, used for Debugging  
 
+    #--PER FRAME CONFIGURATIONS--#
             
     pygame.display.flip()
     mouseDown = False
