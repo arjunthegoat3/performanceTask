@@ -111,6 +111,8 @@ while running:
                       definition = list(definition)
                       cardIDs = list(cardIDs)
 
+                      
+
             if homePage:
                 continue
             
@@ -336,6 +338,7 @@ while running:
 
         shuffleText = font.render(f"Shuffle: {'ON' if shuffleMode else 'OFF'}", True, (0,0,0))
         w.blit(shuffleText, (20, 80))
+        #displays wheter the shuffle mode is on or off
 
         if showFeedback:
 
@@ -352,7 +355,7 @@ while running:
             w.blit(feedbackText, (getXToCenter(feedbackText), 350))
             
 # ChatGPT, used for Debugging  
-# 
+
             
     pygame.display.flip()
     mouseDown = False
