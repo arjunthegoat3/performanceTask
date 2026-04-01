@@ -25,6 +25,7 @@ finished = False
 cardRect = pygame.Rect(100, 100, 500, 350)
 homePage = True
 shuffleMode = False
+blitAnswerWarning = False
 
 correct = 0
 incorrect = 0
@@ -33,6 +34,7 @@ feedback = ""
 #ChatGPT
 
 def cycleTheText(currentText, questionList, definitionList, goBack=False):
+
     
     for i in range(0, len(questionList)):
 
@@ -79,6 +81,7 @@ def getCollisionStatus(surface, x, y):
 inputting = True
 textToDisplay = ""
 
+#creating and configuring all pygame objects
 w = pygame.display.set_mode((700, 700))
 icon = pygame.image.load("icon.png") #notebook picture, from dreamstime website
 finishButton = pygame.image.load("finishButton.png") #made in canva
@@ -227,13 +230,30 @@ while running:
                 doX = getXToCenter(definitionOutput)
                 w.blit(definitionOutput, (doX, 250))
 
+                if blitAnswerWarning:
+
+                    warning = font.render("Answer cannot be the same as the question", True, (255, 0, 0))
+                    w.blit(warning, (getXToCenter(warning), 400))
+
             else:
 
-                definition.append(inputText)
-                cardIDs.append(len(definition)) #assigning unique number to each card
-                inputText = "Type here:"
-                enterPressed = False
-                takingQuestion = True
+                #answer cannot be same as question to prevent logic errors with the cycleTheText function
+
+                if inputText != question[len(question) - 1]:
+
+                    definition.append(inputText)
+                    cardIDs.append(len(definition)) #assigning unique number to each card
+
+                    #resetting everything
+                    blitAnswerWarning = False
+                    inputText = "Type here:"
+                    enterPressed = False
+                    takingQuestion = True
+
+                else:
+
+                    blitAnswerWarning = True
+                    enterPressed = False
 
         inputCounter += 1
 
