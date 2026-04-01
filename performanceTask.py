@@ -88,6 +88,8 @@ pygame.display.set_icon(icon)
 pygame.display.set_caption("FLASH CARDS")
 font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
 largeFont = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 40) #roboto, taken from google fonts
+clickSound = pygame.mixer.Sound("universfield-computer-mouse-click-352734.mp3") #taken from pixabay
+clickSound.set_volume(0.7)
 largeFont.set_bold(True)
 
 running = True
@@ -138,6 +140,7 @@ while running:
                         inputText += event.unicode
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
+            clickSound.play()
             mouseDown = True
 
     w.fill((255, 255, 255))
