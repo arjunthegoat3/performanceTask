@@ -145,7 +145,7 @@ while running:
             else:
 
                 if inputText != "Type here:":
-                    if event.unicode.isprintable:
+                    if event.unicode.isprintable():
                         inputText += event.unicode
 
                 else:
@@ -229,7 +229,7 @@ while running:
         if takingQuestion:
 
             if not enterPressed:
-                
+
                 questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
                 qoX = getXToCenter(questionOutput)
                 w.blit(questionOutput, (qoX, 250))
@@ -375,7 +375,7 @@ while running:
         pygame.draw.rect(w, (230, 230, 230), cardRect, border_radius=15)
         pygame.draw.rect(w, (0, 0, 0), cardRect, 3, border_radius=15)
 
-        questionCycleText = font.render("Question: " + textToDisplay, True, (0, 0, 0))
+        questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
         qctX = getXToCenter(questionCycleText)
         w.blit(questionCycleText, (qctX, 250))
 
