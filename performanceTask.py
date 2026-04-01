@@ -3,6 +3,8 @@ import random
 pygame.init()
 pygame.key.set_repeat(300, 50) #line written by ChatGPT
 
+#--DEFINING VARIABLES--#
+
 question = []
 definition = []
 cardIDs = []
@@ -26,6 +28,8 @@ cardRect = pygame.Rect(100, 100, 500, 350)
 homePage = True
 shuffleMode = False
 blitAnswerWarning = False
+inputting = True
+textToDisplay = ""
 
 correct = 0
 incorrect = 0
@@ -33,8 +37,9 @@ attempted = 0
 feedback = ""
 #ChatGPT
 
-def cycleTheText(currentText, questionList, definitionList, goBack=False):
+#--CYCLETHETEXT FUNCTION DEFINITION--#
 
+def cycleTheText(currentText, questionList, definitionList, goBack=False):
     
     for i in range(0, len(questionList)):
 
@@ -54,6 +59,8 @@ def cycleTheText(currentText, questionList, definitionList, goBack=False):
         elif definitionList[i] == currentText:
             return questionList[(i + 1)]
         
+#--GETXTOCENTER DEFINITION--#
+        
 def getXToCenter(surface):
 
     #gets the x value with which the text will be centered,
@@ -62,6 +69,8 @@ def getXToCenter(surface):
     rect = surface.get_rect()
     temp = (350 - (rect.width/2))
     return temp
+
+#--GETCOLLISIONSTATUS DEFINITION--#
 
 def getCollisionStatus(surface, x, y):
 
@@ -78,8 +87,7 @@ def getCollisionStatus(surface, x, y):
     else:
         return False
 
-inputting = True
-textToDisplay = ""
+
 
 #creating and configuring all pygame objects
 w = pygame.display.set_mode((700, 700))
