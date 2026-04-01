@@ -271,7 +271,7 @@ while running:
              True, 
               (0, 0, 0)
             )
-        w.blit(cardNumberText, (500, 20))
+        w.blit(cardNumberText, (500, 7))
         w.blit(shuffleModeButton, (getXToCenter(shuffleModeButton), 475))
         w.blit(finishButton, (150, 500))
         w.blit(nextButton, (450, 500))
@@ -288,6 +288,7 @@ while running:
                 definition = list(definition)
                 cardIDs = list(cardIDs)
 
+            #When the shuffle mode is on the cards
 
         if firstQuestionCycle:
             textToDisplay = cycleTheText(textToDisplay, question, definition)
@@ -340,7 +341,7 @@ while running:
         w.blit(wrongText, (20, 60))
 
         shuffleText = font.render(f"Shuffle: {'ON' if shuffleMode else 'OFF'}", True, (0,0,0))
-        w.blit(shuffleText, (20, 80))
+        w.blit(shuffleText, (20,80))
         #displays wheter the shuffle mode is on or off
 
         if showFeedback:
