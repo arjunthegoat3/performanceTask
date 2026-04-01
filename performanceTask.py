@@ -10,11 +10,9 @@ definition = []
 cardIDs = []
 clock = pygame.time.Clock()
 inputText = "Type here:"
-inputCounter = 0
 currentCard = 0
 start = True
 makeCards = True
-doQuestions = True
 enterPressed = False
 cardCount = ""
 takingQuestion = True
@@ -28,7 +26,6 @@ cardRect = pygame.Rect(100, 100, 500, 350)
 homePage = True
 shuffleMode = False
 blitAnswerWarning = False
-inputting = True
 textToDisplay = ""
 
 correct = 0
@@ -150,7 +147,7 @@ while running:
 
                 else:
                     inputText = ""
-                    if event.unicode.isprintable:
+                    if event.unicode.isprintable():
                         inputText += event.unicode
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -274,7 +271,6 @@ while running:
                     blitAnswerWarning = True
                     enterPressed = False
 
-        inputCounter += 1
 
         if len(definition) == cardCount:
             firstQuestionCycle = True
