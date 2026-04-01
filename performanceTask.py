@@ -83,6 +83,7 @@ w = pygame.display.set_mode((700, 700))
 icon = pygame.image.load("icon.png") #notebook picture, from dreamstime website
 finishButton = pygame.image.load("finishButton.png") #made in canva
 nextButton = pygame.image.load("next.png") #made in canva
+shuffleModeButton = pygame.image.load("shuffleModeButton.png") #made in canva
 pygame.display.set_icon(icon)
 pygame.display.set_caption("FLASH CARDS")
 font = pygame.font.Font("Roboto/Roboto-VariableFont_wdth,wght.ttf", 20) #roboto, taken from google fonts
@@ -100,19 +101,6 @@ while running:
 
             #if the space key is pressed, it will trigger a boolean and when the next question/slide
             #is shown the boolean will be set back to false.
-            
-            if event.key == pygame.K_s:
-                  shuffleMode = not shuffleMode
-                  if shuffleMode:
-                      combined = list(zip(question, definition, cardIDs)) 
-                      random.shuffle(combined)
-                      question, definition, cardIDs = zip(*combined)
-                      question = list(question)
-                      definition = list(definition)
-                      cardIDs = list(cardIDs)
-
-            if homePage:
-                continue
             
             if event.key == pygame.K_SPACE:
                 if inputText != "Type here:":
@@ -273,6 +261,7 @@ while running:
         w.blit(scoreTextPercent, (getXToCenter(scoreTextPercent), 145))
 
     elif not start and not makeCards:
+
         titleText = largeFont.render("FLASHCARD MAKER", True, (0, 0, 0))
         w.blit(titleText, (getXToCenter(titleText), 20))
         showUserInput = True
@@ -283,15 +272,31 @@ while running:
               (0, 0, 0)
             )
         w.blit(cardNumberText, (500, 20))
-
+        w.blit(shuffleModeButton, (getXToCenter(shuffleModeButton), 475))
         w.blit(finishButton, (150, 500))
         w.blit(nextButton, (450, 500))
+
+        if getCollisionStatus(shuffleModeButton, getXToCenter(shuffleModeButton), 475):
+
+            shuffleMode = not shuffleMode
+
+            if shuffleMode:
+                combined = list(zip(question, definition, cardIDs)) 
+                random.shuffle(combined)
+                question, definition, cardIDs = zip(*combined)
+                question = list(question)
+                definition = list(definition)
+                cardIDs = list(cardIDs)
+
 
         if firstQuestionCycle:
             textToDisplay = cycleTheText(textToDisplay, question, definition)
             firstQuestionCycle = False
 
+
         if enterPressed or getCollisionStatus(nextButton, 450, 500):
+            
+
             for i in range(len(question)):
                 if textToDisplay == question[i]:
                     currentCard = (currentCard + 1) % len(question)
