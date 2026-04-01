@@ -3,6 +3,8 @@ import random
 pygame.init()
 pygame.key.set_repeat(300, 50) #line written by ChatGPT
 
+#--DEFINING VARIABLES--#
+
 question = []
 definition = []
 cardIDs = []
@@ -11,11 +13,9 @@ originalDefinition = []
 originalCardIDs = []
 clock = pygame.time.Clock()
 inputText = "Type here:"
-inputCounter = 0
 currentCard = 0
 start = True
 makeCards = True
-doQuestions = True
 enterPressed = False
 cardCount = ""
 takingQuestion = True
@@ -28,12 +28,16 @@ finished = False
 cardRect = pygame.Rect(100, 100, 500, 350)
 homePage = True
 shuffleMode = False
+blitAnswerWarning = False
+textToDisplay = ""
 
 correct = 0
 incorrect = 0
 attempted = 0
 feedback = ""
 #ChatGPT
+
+#--CYCLETHETEXT FUNCTION DEFINITION--#
 
 def cycleTheText(currentText, questionList, definitionList, goBack=False):
     
@@ -55,6 +59,8 @@ def cycleTheText(currentText, questionList, definitionList, goBack=False):
         elif definitionList[i] == currentText:
             return questionList[(i + 1)]
         
+#--GETXTOCENTER DEFINITION--#
+        
 def getXToCenter(surface):
 
     #gets the x value with which the text will be centered,
@@ -63,6 +69,8 @@ def getXToCenter(surface):
     rect = surface.get_rect()
     temp = (350 - (rect.width/2))
     return temp
+
+#--GETCOLLISIONSTATUS DEFINITION--#
 
 def getCollisionStatus(surface, x, y):
 
@@ -79,9 +87,9 @@ def getCollisionStatus(surface, x, y):
     else:
         return False
 
-inputting = True
-textToDisplay = ""
+#--PYGAME OBJECT DEFINITIONS--#
 
+#creating and configuring all pygame objects
 w = pygame.display.set_mode((700, 700))
 icon = pygame.image.load("icon.png") #notebook picture, from dreamstime website
 finishButton = pygame.image.load("finishButton.png") #made in canva
@@ -95,9 +103,12 @@ clickSound = pygame.mixer.Sound("universfield-computer-mouse-click-352734.mp3") 
 clickSound.set_volume(0.7)
 largeFont.set_bold(True)
 
+#--PYGAME FOR LOOP--#
+
 running = True
 while running:
 
+    #--EVENT LOOP--#
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -134,12 +145,12 @@ while running:
             else:
 
                 if inputText != "Type here:":
-                    if event.unicode.isprintable:
+                    if event.unicode.isprintable():
                         inputText += event.unicode
 
                 else:
                     inputText = ""
-                    if event.unicode.isprintable:
+                    if event.unicode.isprintable():
                         inputText += event.unicode
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
@@ -147,6 +158,8 @@ while running:
             mouseDown = True
 
     w.fill((255, 255, 255))
+
+    #--BLITTING USER INPUT IF TO BE SHOWN--#
 
     if showUserInput:
 
@@ -165,6 +178,8 @@ while running:
     then alternates between getting the question and answer for each card,
     then the program will go into quizzing the user.
     """
+
+    #--BLITTING ELEMENTS IF USER IS ON HOMEPAGE--#
 
     if homePage:
 
@@ -193,6 +208,8 @@ while running:
             showUserInput = True
             homePage = False
 
+    #--AMOUNT OF CARDS INPUTTING--#
+
     elif start:
         
         numberInputText = font.render("How many questions do you want to create? (please input as a number) ", True, (0, 0, 0))
@@ -219,12 +236,14 @@ while running:
                 showWarning = True
                 enterPressed = False
 
+    #--QUESTION INPUT CYCLE--#
+
     elif makeCards:
 
         if takingQuestion:
 
             if not enterPressed:
-                
+
                 questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
                 qoX = getXToCenter(questionOutput)
                 w.blit(questionOutput, (qoX, 250))
@@ -244,15 +263,31 @@ while running:
                 doX = getXToCenter(definitionOutput)
                 w.blit(definitionOutput, (doX, 250))
 
+                if blitAnswerWarning:
+
+                    warning = font.render("Answer cannot be the same as the question", True, (255, 0, 0))
+                    w.blit(warning, (getXToCenter(warning), 400))
+
             else:
 
-                definition.append(inputText)
-                cardIDs.append(len(definition)) #assigning unique number to each card
-                inputText = "Type here:"
-                enterPressed = False
-                takingQuestion = True
+                #answer cannot be same as question to prevent logic errors with the cycleTheText function
 
-        inputCounter += 1
+                if inputText != question[len(question) - 1]:
+
+                    definition.append(inputText)
+                    cardIDs.append(len(definition)) #assigning unique number to each card
+
+                    #resetting everything
+                    blitAnswerWarning = False
+                    inputText = "Type here:"
+                    enterPressed = False
+                    takingQuestion = True
+
+                else:
+
+                    blitAnswerWarning = True
+                    enterPressed = False
+
 
         if len(definition) == cardCount:
             originalQuestion = question.copy()
@@ -261,6 +296,9 @@ while running:
             firstQuestionCycle = True
             makeCards = False
     #section for if the program is finished
+
+    #--FINSIHED ANSWERING OUTPUT--#
+
     if finished:
 
         showUserInput = False
@@ -282,6 +320,8 @@ while running:
         scoreTextPercent = largeFont.render(str(scorePercent) + "%", True, (255, 0, 0))
         w.blit(scoreText, (getXToCenter(scoreText), 100))
         w.blit(scoreTextPercent, (getXToCenter(scoreTextPercent), 145))
+
+    #--QUESTION AND ANSWER CYCLE--#
 
     elif not start and not makeCards:
 
@@ -360,10 +400,11 @@ while running:
 
             finished = True
 
+        #--DRAWING CONSISTANT ELEMENTS--#
         pygame.draw.rect(w, (230, 230, 230), cardRect, border_radius=15)
         pygame.draw.rect(w, (0, 0, 0), cardRect, 3, border_radius=15)
 
-        questionCycleText = font.render("Question: " + textToDisplay, True, (0, 0, 0))
+        questionCycleText = font.render(textToDisplay, True, (0, 0, 0))
         qctX = getXToCenter(questionCycleText)
         w.blit(questionCycleText, (qctX, 250))
 
@@ -379,6 +420,8 @@ while running:
         shuffleText = font.render(f"Shuffle: {'ON' if shuffleMode else 'OFF'}", True, (0,0,0))
         w.blit(shuffleText, (20,80))
         #displays wheter the shuffle mode is on or off
+
+        #--SHOWING FEEDBACK IF SHOWING ANSWER--#
 
         if showFeedback:
 
@@ -396,6 +439,7 @@ while running:
             
 # ChatGPT, used for Debugging  
 
+    #--PER FRAME CONFIGURATIONS--#
             
     pygame.display.flip()
     mouseDown = False
