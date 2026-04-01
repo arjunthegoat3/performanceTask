@@ -6,6 +6,9 @@ pygame.key.set_repeat(300, 50) #line written by ChatGPT
 question = []
 definition = []
 cardIDs = []
+originalQuestion = []
+originalDefinition = []
+originalCardIDs = []
 clock = pygame.time.Clock()
 inputText = "Type here:"
 inputCounter = 0
@@ -171,6 +174,20 @@ while running:
 
         w.blit(nextButton, (getXToCenter(nextButton), 500))
 
+        summaryText1 = font.render(
+         "Create your own digital flashcards,",
+         True,
+          (0, 0, 0)
+        )
+        summaryText2 = font.render(
+         "and quiz yourself on them after creating them",
+         True,
+        (0, 0, 0)
+        )
+
+        w.blit(summaryText1, (getXToCenter(summaryText1), 320))
+        w.blit(summaryText2, (getXToCenter(summaryText2), 350))
+
         if getCollisionStatus(nextButton, getXToCenter(nextButton), 500):
 
             showUserInput = True
@@ -238,6 +255,9 @@ while running:
         inputCounter += 1
 
         if len(definition) == cardCount:
+            originalQuestion = question.copy()
+            originalDefinition = definition.copy()
+            originalCardIDs = cardIDs.copy()
             firstQuestionCycle = True
             makeCards = False
     #section for if the program is finished
@@ -284,12 +304,25 @@ while running:
             shuffleMode = not shuffleMode
 
             if shuffleMode:
-                combined = list(zip(question, definition, cardIDs)) 
-                random.shuffle(combined)
-                question, definition, cardIDs = zip(*combined)
-                question = list(question)
-                definition = list(definition)
-                cardIDs = list(cardIDs)
+                 combined = list(zip(question, definition, cardIDs)) 
+                 random.shuffle(combined)
+                 question, definition, cardIDs = zip(*combined)
+                 question = list(question)
+                 definition = list(definition)
+                 cardIDs = list(cardIDs)
+
+                 currentCard = 0
+                 textToDisplay = ""
+                 firstQuestionCycle = True
+
+            else:
+                  question = originalQuestion.copy()
+                  definition = originalDefinition.copy()
+                  cardIDs = originalCardIDs.copy()
+        
+                  currentCard = 0
+                  textToDisplay = ""
+                  firstQuestionCycle = True
 
             #When the shuffle mode is on the cards
 
