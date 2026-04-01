@@ -195,7 +195,7 @@ while running:
           (0, 0, 0)
         )
         summaryText2 = font.render(
-         "and quiz yourself on them after creating them",
+         "and quiz yourself",
          True,
         (0, 0, 0)
         )
