@@ -261,17 +261,21 @@ while running:
 
     #--QUESTION INPUT CYCLE--#
 
+                
+
     elif makeCards:
+
+        w.blit(nextButton, (getXToCenter(nextButton), 500))
 
         if takingQuestion:
 
-            if not enterPressed:
+            if not (enterPressed or getCollisionStatus(nextButton, getXToCenter(nextButton), 500)):
 
                 questionOutput = font.render("What is the question for this card? ", True, (0, 0, 0))
                 qoX = getXToCenter(questionOutput)
                 w.blit(questionOutput, (qoX, 250))
 
-            else:
+            elif enterPressed or getCollisionStatus(nextButton, getXToCenter(nextButton), 500):
 
                 question.append(inputText)
                 inputText = "Type here:"
@@ -280,7 +284,7 @@ while running:
                 
         else:
 
-            if not enterPressed:
+            if not (enterPressed or getCollisionStatus(nextButton, getXToCenter(nextButton), 500)):
 
                 definitionOutput = font.render("What is the answer for this card? ", True, (0, 0, 0))
                 doX = getXToCenter(definitionOutput)
@@ -291,7 +295,7 @@ while running:
                     warning = font.render("Answer cannot be the same as the question", True, (255, 0, 0))
                     w.blit(warning, (getXToCenter(warning), 400))
 
-            else:
+            elif enterPressed or getCollisionStatus(nextButton, getXToCenter(nextButton), 500):
 
                 #answer cannot be same as question to prevent logic errors with the cycleTheText function
 
