@@ -26,10 +26,12 @@ showWarning = False
 mouseDown = False
 finished = False
 cardRect = pygame.Rect(100, 100, 500, 350)
+inputBox = pygame.Rect(100, 580, 500, 40)
 homePage = True
 shuffleMode = False
 blitAnswerWarning = False
 textToDisplay = ""
+overflow = False
 
 correct = 0
 incorrect = 0
@@ -144,14 +146,19 @@ while running:
 
             else:
 
-                if inputText != "Type here:":
-                    if event.unicode.isprintable():
-                        inputText += event.unicode
+                userInput = font.render(inputText, True, (0, 0, 255))
+                userInputRect = userInput.get_rect()
 
-                else:
-                    inputText = ""
-                    if event.unicode.isprintable():
-                        inputText += event.unicode
+                if not overflow:
+
+                    if inputText != "Type here:":
+                        if event.unicode.isprintable():
+                            inputText += event.unicode
+
+                    else:
+                        inputText = ""
+                        if event.unicode.isprintable():
+                            inputText += event.unicode
 
         elif event.type == pygame.MOUSEBUTTONDOWN:
             clickSound.play()
@@ -163,13 +170,29 @@ while running:
 
     if showUserInput:
 
+        userInput = font.render(inputText, True, (0, 0, 255))
+        userInputRect = userInput.get_rect()
+
+        #checking for overflow
+
+        if (userInputRect.width + 20) >= inputBox.width:
+
+            inputWarning = font.render("Input is too long", True, (255, 0, 0))
+            w.blit(inputWarning, (getXToCenter(inputWarning), 400))
+            print("blit")
+            overflow = True
+
+        else:
+
+            overflow = False
+
+
+
         #having text be displayed when the boolean is true
-        
-        inputBox = pygame.Rect(100, 580, 500, 40)
+        userInput = font.render(inputText, True, (0, 0, 255))
         pygame.draw.rect(w, (240, 240, 240), inputBox, border_radius=10)
         pygame.draw.rect(w, (0, 0, 0), inputBox, 2, border_radius=10)
 
-        userInput = font.render(inputText, True, (0, 0, 255))
         w.blit(userInput, (inputBox.x + 10, inputBox.y + 8))
 
     """
