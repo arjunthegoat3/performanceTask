@@ -58,8 +58,11 @@ def cycleTheText(currentText, questionList, definitionList, goBack=False):
             return(questionList[0])
 
         if questionList[i] == currentText:
+
             return definitionList[i]
+        
         elif definitionList[i] == currentText:
+
             return questionList[(i + 1)]
         
 #--GETXTOCENTER DEFINITION--#
@@ -180,7 +183,6 @@ while running:
 
             inputWarning = font.render("Input is too long", True, (255, 0, 0))
             w.blit(inputWarning, (getXToCenter(inputWarning), 400))
-            print("blit")
             overflow = True
 
         else:
@@ -371,7 +373,32 @@ while running:
              True, 
               (0, 0, 0)
             )
-        w.blit(cardNumberText, (500, 7))
+        
+        #showing live percentages
+
+        try:
+            currentScorePercent = 100*(correct/attempted)
+
+            if currentScorePercent > 60:
+
+                color = (0, 255, 0)
+
+            else:
+
+                color = (255, 0, 0)
+
+        except:
+            currentScorePercent = 0
+
+            color = (255, 0, 0)
+
+        #typecasting to avoid weird numbers
+        currentScorePercent = int(currentScorePercent)
+
+        currentScorePercentText = largeFont.render(str(currentScorePercent) + "%", True, color)
+        w.blit(currentScorePercentText, (588, 24))
+
+        w.blit(cardNumberText, (510, 7))
         w.blit(shuffleModeButton, (getXToCenter(shuffleModeButton), 475))
         w.blit(finishButton, (150, 500))
         w.blit(nextButton, (450, 500))
