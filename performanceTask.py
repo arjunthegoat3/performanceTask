@@ -32,6 +32,7 @@ shuffleMode = False
 blitAnswerWarning = False
 textToDisplay = ""
 overflow = False
+cardInputNumber = 1
 
 correct = 0
 incorrect = 0
@@ -263,7 +264,11 @@ while running:
 
     elif makeCards:
 
+        cardInputNumberText = font.render("Card # " + str(cardInputNumber), True, (0, 0, 0))
+        w.blit(cardInputNumberText, (10, 10))
+
         if takingQuestion:
+
 
             if not enterPressed:
 
@@ -293,6 +298,8 @@ while running:
 
             else:
 
+                cardInputNumber += 1
+
                 #answer cannot be same as question to prevent logic errors with the cycleTheText function
 
                 if inputText != question[len(question) - 1]:
@@ -310,6 +317,7 @@ while running:
 
                     blitAnswerWarning = True
                     enterPressed = False
+
 
 
         if len(definition) == cardCount:
