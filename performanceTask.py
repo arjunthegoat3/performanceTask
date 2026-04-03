@@ -33,6 +33,7 @@ blitAnswerWarning = False
 textToDisplay = ""
 overflow = False
 cardInputNumber = 1
+feedbackColor = (255, 255, 255)
 
 correct = 0
 incorrect = 0
@@ -238,6 +239,9 @@ while running:
 
     elif start:
         
+        #adding next button
+        w.blit(nextButton, (getXToCenter(nextButton), 500))
+
         numberInputText = font.render("How many questions do you want to create? (please input as a number) ", True, (0, 0, 0))
         w.blit(numberInputText, (getXToCenter(numberInputText), 250))
 
@@ -246,7 +250,7 @@ while running:
             warning = font.render("Please enter your answer as a number (ex. 10)", True, (255, 0, 0))
             w.blit(warning, (getXToCenter(warning), 400))
 
-        if enterPressed:
+        if enterPressed or getCollisionStatus(nextButton, getXToCenter(nextButton), 500):
 
             #tries to typecast the input to an int, if not possible adds a warning to the front end,
             #if possible moves to the question creation cycle
@@ -396,7 +400,7 @@ while running:
         currentScorePercent = int(currentScorePercent)
 
         currentScorePercentText = largeFont.render(str(currentScorePercent) + "%", True, color)
-        w.blit(currentScorePercentText, (628, 24))
+        w.blit(currentScorePercentText, (600, 24))
 
         w.blit(cardNumberText, (530, 7))
         w.blit(shuffleModeButton, (getXToCenter(shuffleModeButton), 475))
@@ -439,7 +443,7 @@ while running:
             
 
             for i in range(len(question)):
-                if textToDisplay == question[i]:
+                if textToDisplay == definition[i]:
                     currentCard = (currentCard + 1) % len(question)
                     if inputText.lower() == definition[i].lower():
                         correct += 1
@@ -473,16 +477,16 @@ while running:
         w.blit(questionCycleText, (qctX, 250))
 
         attemptedNumber = font.render("Attempted: " + str(attempted), True, (0, 0, 0))
-        w.blit(attemptedNumber, (20, 40))
+        w.blit(attemptedNumber, (20, 35))
 
         correctText = font.render("Correct: " + str(correct), True, (0, 255, 0))
-        w.blit(correctText, (20,20))
+        w.blit(correctText, (20,15))
 
         wrongText = font.render(f"Incorrect: {incorrect}", True, (255, 0, 0))
-        w.blit(wrongText, (20, 60))
+        w.blit(wrongText, (20, 55))
 
         shuffleText = font.render(f"Shuffle: {'ON' if shuffleMode else 'OFF'}", True, (0,0,0))
-        w.blit(shuffleText, (20,80))
+        w.blit(shuffleText, (20,75))
         #displays wheter the shuffle mode is on or off
 
         #--SHOWING FEEDBACK IF SHOWING ANSWER--#
