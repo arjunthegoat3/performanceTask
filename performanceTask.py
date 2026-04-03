@@ -368,8 +368,6 @@ while running:
 
     elif not start and not makeCards:
 
-        #titleText = largeFont.render("FLASHCARD MAKER", True, (0, 0, 0))
-        #w.blit(titleText, (getXToCenter(titleText), 20))
         showUserInput = True
 
         cardNumberText = font.render(
@@ -443,8 +441,8 @@ while running:
             
 
             for i in range(len(question)):
-                if textToDisplay == definition[i]:
-                    currentCard = (currentCard + 1) % len(question)
+                if textToDisplay == question[i]:
+                    
                     if inputText.lower() == definition[i].lower():
                         correct += 1
                         feedback = "Correct!"
@@ -453,6 +451,10 @@ while running:
                         feedback = "Incorrect!"
 
                     attempted += 1
+
+                elif textToDisplay == definition[i]:
+
+                    currentCard = (currentCard + 1) % len(question)
 
             #if showfeedback is already true, it becomes false otherwise it becomes true
             if showFeedback:
