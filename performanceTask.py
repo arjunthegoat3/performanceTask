@@ -364,8 +364,8 @@ while running:
 
     elif not start and not makeCards:
 
-        titleText = largeFont.render("FLASHCARD MAKER", True, (0, 0, 0))
-        w.blit(titleText, (getXToCenter(titleText), 20))
+        #titleText = largeFont.render("FLASHCARD MAKER", True, (0, 0, 0))
+        #w.blit(titleText, (getXToCenter(titleText), 20))
         showUserInput = True
 
         cardNumberText = font.render(
@@ -374,7 +374,7 @@ while running:
               (0, 0, 0)
             )
         
-        #showing live percentages
+        #--SHOWING LIVE PERCENTAGES--#
 
         try:
             currentScorePercent = 100*(correct/attempted)
@@ -396,9 +396,9 @@ while running:
         currentScorePercent = int(currentScorePercent)
 
         currentScorePercentText = largeFont.render(str(currentScorePercent) + "%", True, color)
-        w.blit(currentScorePercentText, (588, 24))
+        w.blit(currentScorePercentText, (628, 24))
 
-        w.blit(cardNumberText, (510, 7))
+        w.blit(cardNumberText, (530, 7))
         w.blit(shuffleModeButton, (getXToCenter(shuffleModeButton), 475))
         w.blit(finishButton, (150, 500))
         w.blit(nextButton, (450, 500))
