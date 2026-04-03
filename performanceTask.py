@@ -416,6 +416,8 @@ while running:
                  question = list(question)
                  definition = list(definition)
                  cardIDs = list(cardIDs)
+                 # question, definition, and CardIDs created with help of ChatGPT
+                 #Zip and Unzip created with help of ChatGPT
 
                  currentCard = 0
                  textToDisplay = ""
